@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.SaleDetailMapper">
+  <resultMap id="BaseResultMap" type="vo.SaleDetail">
+    <id column="lsh" jdbcType="VARCHAR" property="lsh" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="productName" jdbcType="VARCHAR" property="productname" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="saleTime" jdbcType="TIMESTAMP" property="saletime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    lsh, barcode, productName, price, count, operator, saleTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saledetail
+    where lsh = #{lsh,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="queryDataByDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saledetail
+    where saleTime like #{date,jdbcType=TIMESTAMP}
+  </select>
+  
+  
+  <select id="getTotalRecord" resultType="java.lang.Integer">
+    SELECT COUNT(*) num from saledetail
+  </select>
+  <select id="getTotalProductNum" resultType="java.lang.Integer">
+    SELECT sum(count) num from saledetail
+  </select>
+  <!-- <select id="getTotalMoney" resultType="java.lang.Integer">
+    SELECT sum(price) num from saledetail
+  </select> -->
+  
+ 
+  <select id="queryAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saledetail
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from saledetail
+    where lsh = #{lsh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="vo.SaleDetail">
+    insert into saledetail (lsh, barcode, productName, 
+      price, count, operator, 
+      saleTime)
+    values (#{lsh,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, #{operator,jdbcType=VARCHAR}, 
+      #{saletime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="vo.SaleDetail">
+    insert into saledetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lsh != null">
+        lsh,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="productname != null">
+        productName,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="saletime != null">
+        saleTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lsh != null">
+        #{lsh,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="saletime != null">
+        #{saletime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="vo.SaleDetail">
+    update saledetail
+    <set>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="saletime != null">
+        saleTime = #{saletime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where lsh = #{lsh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="vo.SaleDetail">
+    update saledetail
+    set barcode = #{barcode,jdbcType=VARCHAR},
+      productName = #{productname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      count = #{count,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=VARCHAR},
+      saleTime = #{saletime,jdbcType=TIMESTAMP}
+    where lsh = #{lsh,jdbcType=VARCHAR}
+  </update>
+</mapper>
